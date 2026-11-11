@@ -1,0 +1,8 @@
+{
+ "name": "Virginia Forge",
+ "include": [
+  "public/**/*.html",
+  "public/**/*.json",
+  "public/**/*.csv"
+ ]
+}
