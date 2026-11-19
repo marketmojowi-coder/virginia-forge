@@ -1,0 +1,30 @@
+name: Citations
+
+# The series citation check (citebot). Copy this file to .github/workflows/citations.yml,
+# citebot.py to citebot/citebot.py and the project's config to citebot/citebot.json.
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  citations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check citations (holder named, no working notes, house style)
+        run: python3 citebot/citebot.py --config citebot/citebot.json --json citebot-report.json --quiet
+      - name: Keep the full report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: citebot-report
+          path: citebot-report.json
+          if-no-files-found: ignore
+          retention-days: 30
